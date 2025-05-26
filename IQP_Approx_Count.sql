@@ -1,0 +1,20 @@
+
+ALTER DATABASE NWIND SET COMPATIBILITY_LEVEL = 120;
+ALTER DATABASE NWIND SET COMPATIBILITY_LEVEL = 160;
+GO
+
+USE NWIND;
+GO
+
+set statistics io, time on
+
+-- Compare execution time and distinct counts
+
+SELECT COUNT(DISTINCT orderid)
+FROM [Order Details]
+OPTION (USE HINT('DISALLOW_BATCH_MODE'), RECOMPILE); -- Isolating out BMOR
+
+SELECT APPROX_COUNT_DISTINCT(orderid)
+FROM [Order Details]
+OPTION (USE HINT('DISALLOW_BATCH_MODE'), RECOMPILE); -- Isolating out BMOR
+
